@@ -1,7 +1,5 @@
 clc
 clear all
-% rng(7)
-% format long
     theta = (-90:1:90)'*(pi/180); % radian
     L = 16; % ANTENNA NUMBER
     N = 32; % SAMPLE NUMBER
