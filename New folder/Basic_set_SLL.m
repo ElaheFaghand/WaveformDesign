@@ -44,9 +44,9 @@ for k = 1:K
         w(k) = 1000;
     end
 end
-
-figure
-plot(theta*180/pi, w)
+% 
+% figure
+% plot(theta*180/pi, w)
 
 % weight on mainlobe
 % for k = 1:K
@@ -81,7 +81,7 @@ end
 % A = importdata("A.mat"); 
 
 %%
-J = zeros(M^2);
+% J = zeros(M^2);
 % for j = 1:M^2
 %     for l = 1:M^2
 %         for k = 1:K
@@ -90,12 +90,17 @@ J = zeros(M^2);
 %         J (j,l) =  sum (J1);      
 %     end
 % end
-
 % J  =  (A(:,1:M^2)).' * A(:,1:M^2) ;
+%%
 
-for k = 1:K
-    J  =  J + w(k) * A(k,:)' * A(k,:)  ;
-end
+% J = zeros(M^2);
+% for k = 1:K
+%     J  =  J + (w(k) * A(k,:))' * w(k)*A(k,:)  ;
+% end
+Aw = A.*w;
+J  =  (conj(Aw)).'*(Aw);
+
+% J  =  (Aw)'*(Aw);
 
 %%
 B = zeros(M^2 , 1);
@@ -108,21 +113,27 @@ B = zeros(M^2 , 1);
 
 % B =  (p_d * A(:,(1:M^2))); 
 
-for k = 1:K
-    % B =  B + w(k) * A(k,(1:M^2)).'* p_d(k) ;
-    B =  B + w(k) .* A(k,:)'.* p_d(1,k) ;
-end
+% for k = 1:K
+%     % B =  B + w(k) * A(k,(1:M^2)).'* p_d(k) ;
+%     B =  B + w(k) .* A(k,:)'.* p_d(1,k) ;
+% end
+b = (A'*(p_d'.*w));
 
  %%
  % R = inv(J) * B;
  % u = importdata("u.mat");
  % v = importdata("v.mat");
 [V, D] = eig(J);
-r = zeros(M^2,1);
+D = diag(D);
+N = rank(J);
+D = D(1:N); 
+V = V(:, 1:N);
+r = V * ((V' * b)./D);
 
-for n = 1 : rank(J)
-    r = r + V(:,n) * (V(:,n)' * B)/(D(n,n));
-end
+% r = zeros(M^2,1);
+% for n = 1 : rank(J)
+%     r = r + V(:,n) * (V(:,n)' * B)/(D(n,n));
+% end
 
 % for k=1:2*M-1
 %     r = r+ u(:,k)'* B/v(k,k)*u(:,k);
@@ -140,8 +151,8 @@ P = Beam_Pattern (M, theta, RM);
 % plot(theta *180/pi,10*log(abs(P))), grid on, hold on
 plot(theta*180/pi,10*log10(abs(P))), grid on, hold on
 
-figure;
-imagesc(abs(RM))
+% figure;
+% imagesc(abs(RM))
 
 %% making a shift
 % RM_shift = shift_R_construction(-10 , M, RM);
