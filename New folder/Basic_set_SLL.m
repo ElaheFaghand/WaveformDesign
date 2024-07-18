@@ -1,3 +1,5 @@
+% The method of Basic Sets for symetric and asymetric
+% without for cycles it works correctly 18/7/2024
 clc
 clear 
 tic
@@ -9,7 +11,7 @@ M = 16;
 w = ones(length(theta),1);
 
 %% desired beampattern
-start = -30 * pi/180;
+start = -10 * pi/180;
 stop= 30 * pi/180;
 pl1 = sin(start);
 ph1 = sin( stop);
@@ -103,7 +105,6 @@ J  =  (conj(Aw)).'*(Aw);
 % J  =  (Aw)'*(Aw);
 
 %%
-B = zeros(M^2 , 1);
 % for l = 1 : M^2
 %     for k = 1:K
 %         B1(k)  = w(k) * A(k,l)* p_d(k) ;
@@ -113,9 +114,10 @@ B = zeros(M^2 , 1);
 
 % B =  (p_d * A(:,(1:M^2))); 
 
+% b = zeros(M^2 , 1);
 % for k = 1:K
 %     % B =  B + w(k) * A(k,(1:M^2)).'* p_d(k) ;
-%     B =  B + w(k) .* A(k,:)'.* p_d(1,k) ;
+%     b =  b + w(k) .* A(k,:)'.* p_d(1,k) ;
 % end
 b = (A'*(p_d'.*w));
 
