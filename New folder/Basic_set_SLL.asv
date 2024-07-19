@@ -1,3 +1,5 @@
+% The method of Basic Sets for symetric and asymetric
+% without for cycles it works correctly 18/7/2024
 clc
 clear 
 tic
@@ -9,7 +11,7 @@ M = 16;
 w = ones(length(theta),1);
 
 %% desired beampattern
-start = -30 * pi/180;
+start = -10 * pi/180;
 stop= 30 * pi/180;
 pl1 = sin(start);
 ph1 = sin( stop);
@@ -44,9 +46,9 @@ for k = 1:K
         w(k) = 1000;
     end
 end
-
-figure
-plot(theta*180/pi, w)
+% 
+% figure
+% plot(theta*180/pi, w)
 
 % weight on mainlobe
 % for k = 1:K
@@ -81,7 +83,7 @@ end
 % A = importdata("A.mat"); 
 
 %%
-J = zeros(M^2);
+% J = zeros(M^2);
 % for j = 1:M^2
 %     for l = 1:M^2
 %         for k = 1:K
@@ -90,16 +92,19 @@ J = zeros(M^2);
 %         J (j,l) =  sum (J1);      
 %     end
 % end
-
 % J  =  (A(:,1:M^2)).' * A(:,1:M^2) ;
+%%
 
-for k = 1:K
-    % J  =  J + w(k) * A(k,1:M^2).' * A(k,1:M^2)  ;
-    J  =  J + w(k) * (A(k,:)' * A(k,:));
-end
+% J = zeros(M^2);
+% for k = 1:K
+%     J  =  J + (w(k) * A(k,:))' * w(k)*A(k,:)  ;
+% end
+Aw = A.*w;
+% J1  =  ((conj(Aw)).')*(Aw);
+Awh=(Aw)';
+J  =  Awh*(Aw);
 
 %%
-B = zeros(M^2 , 1);
 % for l = 1 : M^2
 %     for k = 1:K
 %         B1(k)  = w(k) * A(k,l)* p_d(k) ;
@@ -109,21 +114,28 @@ B = zeros(M^2 , 1);
 
 % B =  (p_d * A(:,(1:M^2))); 
 
-for k = 1:K
-    % B =  B + w(k) * A(k,(1:M^2)).'* p_d(k) ;
-    B =  B + w(k) .* A(k,:)'.* p_d(1,k) ;
-end
+% b = zeros(M^2 , 1);
+% for k = 1:K
+%     % B =  B + w(k) * A(k,(1:M^2)).'* p_d(k) ;
+%     b =  b + w(k) .* A(k,:)'.* p_d(1,k) ;
+% end
+b = (A'*(p_d'.*w));
 
  %%
  % R = inv(J) * B;
  % u = importdata("u.mat");
  % v = importdata("v.mat");
 [V, D] = eig(J);
-r = zeros(M^2,1);
+D = diag(D);
+N = rank(J);
+D = D(1:N); 
+V = V(:, 1:N);
+r = V * ((V' * b)./D);
 
-for n = 1 : rank(J)
-    r = r + V(:,n) * (V(:,n)' * B)/(D(n,n));
-end
+% r = zeros(M^2,1);
+% for n = 1 : rank(J)
+%     r = r + V(:,n) * (V(:,n)' * B)/(D(n,n));
+% end
 
 % for k=1:2*M-1
 %     r = r+ u(:,k)'* B/v(k,k)*u(:,k);
@@ -139,10 +151,10 @@ RM = RM+eye(M)*(max(max(abs(RM)))-RM(1));
 P = Beam_Pattern (M, theta, RM);
 % figure
 % plot(theta *180/pi,10*log(abs(P))), grid on, hold on
-plot(gamma,10*log(abs(P))), grid on, hold on
+plot(theta*180/pi,10*log10(abs(P))), grid on, hold on
 
-figure;
-imagesc(abs(RM))
+% figure;
+% imagesc(abs(RM))
 
 %% making a shift
 % RM_shift = shift_R_construction(-10 , M, RM);

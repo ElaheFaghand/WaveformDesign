@@ -99,10 +99,11 @@ end
 % for k = 1:K
 %     J  =  J + (w(k) * A(k,:))' * w(k)*A(k,:)  ;
 % end
-Aw = A.*w;
-J  =  (conj(Aw)).'*(Aw);
+% J1  =  ((conj(Aw)).')*(Aw);
 
-% J  =  (Aw)'*(Aw);
+Aw = A.*w;
+Awh=(Aw)';
+J  =  Awh * Aw;
 
 %%
 % for l = 1 : M^2
