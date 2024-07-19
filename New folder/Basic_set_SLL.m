@@ -11,7 +11,7 @@ M = 16;
 w = ones(length(theta),1);
 
 %% desired beampattern
-start = -10 * pi/180;
+start = -30 * pi/180;
 stop= 30 * pi/180;
 pl1 = sin(start);
 ph1 = sin( stop);
@@ -99,11 +99,13 @@ end
 % for k = 1:K
 %     J  =  J + (w(k) * A(k,:))' * w(k)*A(k,:)  ;
 % end
-% J1  =  ((conj(Aw)).')*(Aw);
 
 Aw = A.*w;
-Awh=(Aw)';
-J  =  Awh * Aw;
+% J1  =  ((conj(Aw)).')*(Aw);
+% Awh = (Aw)';
+% J  =  Awh * Aw;
+% J = Aw'*Aw+(eps*(eye(256)+1j*eye(256)));
+J = Aw'*Aw;
 
 %%
 % for l = 1 : M^2
@@ -126,7 +128,10 @@ b = (A'*(p_d'.*w));
  % R = inv(J) * B;
  % u = importdata("u.mat");
  % v = importdata("v.mat");
-[V, D] = eig(J);
+[Vt, Dt] = eig(J);
+[d,ind] = sort(diag(Dt),'descend');
+D = Dt(ind,ind);
+V = Vt(:,ind);
 D = diag(D);
 N = rank(J);
 D = D(1:N); 
