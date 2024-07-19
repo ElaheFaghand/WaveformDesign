@@ -11,8 +11,8 @@ M = 16;
 w = ones(length(theta),1);
 
 %% desired beampattern
-start = -30 * pi/180;
-stop= 30 * pi/180;
+start = -23 * pi/180;
+stop= 23 * pi/180;
 pl1 = sin(start);
 ph1 = sin( stop);
 p_d = (1.*(sin(theta)>pl1).*(sin(theta)<ph1)); 
