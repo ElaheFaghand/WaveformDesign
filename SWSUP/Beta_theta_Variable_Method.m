@@ -17,7 +17,7 @@ theta_stop = 30;  % degree
 gamma_L = sind(theta_start);
 gamma_R = sind(theta_stop); 
 P_d = (1.*(gamma > gamma_L) .* (gamma < gamma_R));
-
+% P_d = [0.1*ones(1,200),zeros(1,200),0.1*ones(1,200),ones(1,600),0.1*ones(1,601)];
 % % multi lobes
 % theta_start = -15; % degree
 % theta_stop = 15;  % degree
@@ -61,18 +61,18 @@ eta = linspace(eta_1, eta_I,I);
 
 %%
 beta_initial = 0.1 * ones(1, length(eta));
-V = 10; % set V = 1 if you want only run weight evaluation
+V = 1; % set V = 1 if you want only run weight evaluation
 tic
 for Iteration = 1:V
     %% Beta calculation
     [P_R_total1, beta, P_shift] = Beta_calculation (gamma, P_d, M, eta, beta_initial);
     %% Theta calculation, set Iteration = 1:10 if you want  run beta eta code
-    [eta_updated, P_R_total] = Theta_calculation(gamma,  P_d, M, eta, beta);
+%     [eta_updated, P_R_total] = Theta_calculation(gamma,  P_d, M, eta, beta);
     beta_initial = beta';
-    eta = eta_updated;
+%     eta = eta_updated;
 end
 toc
-plot(theta , 10*log10(abs(P_R_total))), hold on, grid on, axis([-90 90, -50 1])
+plot(theta , 10*log10(abs(P_R_total1))), hold on, grid on, axis([-90 90, -50 1])
     
 %% Making R
 % for i =1:length(eta)

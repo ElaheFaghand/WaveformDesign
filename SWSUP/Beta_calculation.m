@@ -11,6 +11,12 @@ function  [p_L_Final, beta, P_shift]  = Beta_calculation (gamma, P_d, M, eta, be
 %             P_shift (k,l) = (sin (M*pi*(gamma(k) - eta(l))/2)/sin(pi*(gamma(k) - eta(l))/2))^2/M^2;
 %         end
 %     end
+
+%  for i=1:I
+%     plot(gamma,10*log10(P_shift(:,i))), hold on
+%  end
+% axis([-1 1, -30 0])
+
     P_shift(isnan(P_shift))= 1;
     p_L =  P_shift * beta_initial';   
             %%

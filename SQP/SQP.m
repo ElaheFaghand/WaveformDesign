@@ -2,16 +2,15 @@
 
 clc
 clear all
-% for i = 1 : 100
+for ii = 1 : 3
     format long
-    
-    % gamma = (-1:0.001:1);  % 2001 points are considered
-    theta = (-90:0.1:90)' *pi/180;
-    % theta = (asin(gamma))' ;
+    gamma = (-1:0.001:1);  % 2001 points are considered
+%     theta = (-90:0.1:90)' *pi/180;
+    theta = (asin(gamma))' ;
     tt = theta * 180/pi;
     L = length(theta);
     t=sin(theta);
-    N = 10;
+    N = 30;
     %% 
     % p=sin(pi/180*-50);
     % ph=sin(pi/180*-40);
@@ -20,10 +19,13 @@ clear all
     % p3=sin(pi/180*40);
     % ph3=sin(pi/180*60);
     % r=((1.*(t>p).*(t<ph)))+(1.*(t>p2).*(t<ph2))+(1.*(t>p3).*(t<ph3));
-    %%
-    pl1=sin(pi/180*-30);
-    ph1=sin(pi/180*30);
+    %
+theta_start = randi([-75,-2]); % degree
+theta_stop = randi([2,75]);  % degree
+    pl1=sin(pi/180 * theta_start);
+    ph1=sin(pi/180 * theta_stop);
     r=(1.*(t>pl1).*(t<ph1));
+%     figure, plot(tt,r) 
     %%
     % weight = ones(L,1);
     % weight (find(tt==-40):find(tt==-24)) =10;
@@ -73,13 +75,24 @@ clear all
         R == hermitian_semidefinite(N);
     cvx_end
     R = R/alphaa;
-    toc
+    time(ii) = toc
     for l = 1:L
         et = exp(1j*pi*(0:N-1)*sin(theta(l))).';
         P_sqp(l) = et'*(R)*et;
     end
     % plot(tt,(abs(P_sqp))),hold on,  grid on
+     figure
      plot(tt,10*log10(abs(P_sqp)/max(abs(P_sqp))))
+    
+     MSE(ii) = 1/L * ((r - P_sqp')' * (r - P_sqp'));
+%     ii= ii+1;
+    clearvars -except ii MSE time
+end
+mean(MSE)
+var (MSE)
+time = time/3.88;
+mean(time)
+var (time)
     %% desired plot
     % for i=1:length(r)
     %     if r(i)==0;
@@ -88,8 +101,8 @@ clear all
     % end
     % plot(tt,10*log10(r))
     % time (i) = toc;
-    % clearvars -except time i
 % end
- % MSE  = 1/L * ((r' - P_sqp) * (r' - P_sqp)')
- 
+%   MSE(ii)  = 1/L * ((r' - P_sqp) * (r' - P_sqp)')
+%   ii =ii+1;
+%   clearvars -except MSE ii
 % mean(time)

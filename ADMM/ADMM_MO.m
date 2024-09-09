@@ -4,9 +4,9 @@
 clc
 clear all
 
-% for iii = 1 : 100
+for ii = 1 : 10
     tic
-    gamma0 = (-1:0.01:1);  
+    gamma0 = (-1:0.001:1);  
     theta = (asin(gamma0))' ; % radian
     K = length(theta);
     % theta = (-90:1:90)'*(pi/180); % radian
@@ -15,18 +15,30 @@ clear all
     E = zeros (M*L + 1 , M*L + 1);
 
     %% one lobe
-    pl1 = sin(pi/180 * -30);
-    ph1 = sin(pi/180 * 30);
-    d = (1.*(sin(theta)>pl1).*(sin(theta)<ph1));
-    
+% theta_start = randi([-75,-2]); % degree
+% theta_stop = randi([2,75]);  % degree
+%     pl1 = sin(pi/180 * theta_start);
+%     ph1 = sin(pi/180 * theta_stop);
+%     d = (1.*(sin(theta)>pl1).*(sin(theta)<ph1));
+    %%
+    theta_start1 = randi([0,40]);
+    theta_stop1 = randi ([theta_start1+5, 80]);
+    theta_stop = randi([-40,0]);
+    theta_start = randi ([-80,theta_stop-5]);
+
+p=sin(pi/180*theta_start1);
+ph=sin(pi/180*theta_stop1);
+p2=sin(pi/180*theta_start);
+ph2=sin(pi/180*theta_stop);  
+d=((1.*(sin(theta)>p).*(sin(theta)<ph)))+(1.*(sin(theta)>p2).*(sin(theta)<ph2));
        %% 3 lobes
-    % p=sin(pi/180*-50);
-    % ph=sin(pi/180*-40);
-    % p2=sin(pi/180*-15);
-    % ph2=sin(pi/180*15); 
-    % p3=sin(pi/180*40);
-    % ph3=sin(pi/180*60);
-    % d = ((1.*(sin(theta)>p).*(sin(theta)<ph)))+(1.*(sin(theta)>p2).*(sin(theta)<ph2))+(1.*(sin(theta)>p3).*(sin(theta)<ph3));
+%     p=sin(pi/180*-50);
+%     ph=sin(pi/180*-40);
+%     p2=sin(pi/180*-15);
+%     ph2=sin(pi/180*15); 
+%     p3=sin(pi/180*40);
+%     ph3=sin(pi/180*60);
+%     d = ((1.*(sin(theta)>p).*(sin(theta)<ph)))+(1.*(sin(theta)>p2).*(sin(theta)<ph2))+(1.*(sin(theta)>p3).*(sin(theta)<ph3));
     % plot (theta*180/pi, d)
     
     %% initial values
@@ -109,7 +121,7 @@ clear all
             for k = 1:length(theta)
                 P (k) = (r1'*R(:,:,k)*r1)/ abs(r(1))^2;
             end
-            MSE  = 1/(length(theta)) * ((d - P')' * (d - P'))
+      % MSE  = 1/(length(theta)) * ((d - P')' * (d - P'))
                
       % plot(theta*180/pi,(abs(P))),hold on,  grid on
       max_r(m) = max (abs(r)); 
@@ -122,12 +134,17 @@ clear all
             for k = 1:length(theta)
                 P (k) = (r1'*R(:,:,k)*r1)/ abs(r(1))^2;
             end
-     plot(theta*180/pi,(10*log10(abs(P)))),hold on,  grid on
-     figure
-     plot((1:m-1),  max_r), hold on,plot((1:m-1),  min_r)
-    % MSE  = 1/(length(theta)) * ((d - P')' * (d - P'))
-    % time (iii) = toc;
-    % clearvars -except time i
-% end
-% mean(time)
+%             figure
+%      plot(theta*180/pi,(10*log10(abs(P)))),hold on,  grid on
+%     figure
+%     plot((1:m-1),  max_r), hold on,plot((1:m-1),  min_r)
+    MSE(ii) = 1/(length(theta)) * ((d - P')' * (d - P'));
+    time (ii) = toc
+    clearvars -except  ii MSE time
+end
+time = time/2.22;
+mean(MSE)
+var (MSE)
+mean(time)
+var (time)
 toc

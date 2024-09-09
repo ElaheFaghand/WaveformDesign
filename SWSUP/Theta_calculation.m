@@ -1,11 +1,12 @@
 function  [eta, sum_Beta_i_P_i] = Theta_calculation (gamma, P_d , M, eta, beta)
     K = length(gamma);
     rc = .8;
+%     w = 1; 
      %% 
 %      for l = 1 : length(eta) 
          numerator = 1;  
-
-              while abs(numerator) > 1e-5
+             for w =1:1
+%               while abs(numerator) > 1e-5
 
                   x = (gamma' -  eta);
                   P_shift = (sin (M*pi*(x)/2)./sin(pi*(x)/2)).^2/M^2;
@@ -19,7 +20,7 @@ function  [eta, sum_Beta_i_P_i] = Theta_calculation (gamma, P_d , M, eta, beta)
                   numerator =  (sum_Beta_i_P_i' - P_d) * rond1;
                   denumerator =  beta' .*( ones(1,K)* rond1.^2 ) +  ((sum_Beta_i_P_i' - P_d) * rond2);
                   eta = eta - rc * numerator./denumerator;
-               
+%                w = w+1;
               end
 %      end
      %%

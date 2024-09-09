@@ -4,7 +4,7 @@ clc
 clear
 theta = (-90:.1:90)'*pi/180; % radian 181 points
 M = 16;
-N = 10000;
+N = 1000;
 % gamma = 0.5;
 % r = (0:M-1);
 % R = (gamma.^abs(r-r'))
@@ -15,6 +15,11 @@ R = importdata("R.mat");
 P = Beam_Pattern (M, theta, R);
 plot(theta*180/pi ,10*log10(abs(P))),hold on,  grid on
 [W,Lambda] = eig(R);
+for i =1:M
+    if Lambda(i,i) <=0
+        Lambda(i,i) =0
+    end
+end
 X = randn(N,M) * sqrtm(Lambda) * W'; 
 R_N = X' * X/ N;
 P_N = Beam_Pattern (M, theta, R_N);
