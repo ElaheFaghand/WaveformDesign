@@ -99,17 +99,21 @@ tic
         [eta_updated, P_R_total] = Theta_calculation(gamma,  P_d, M, eta, beta);
         beta_initial = beta';
         eta = eta_updated;
-%         MSE (Iteration) = (P_d - P_R_total')*(P_d' - P_R_total)/ length(theta);
-    time(i) = toc;
+        MSE (Iteration) = (P_d - P_R_total')*(P_d' - P_R_total)/ length(theta);
+        time(Iteration) = toc;
     end
 MSE (i) = (P_d - P_R_total')*(P_d' - P_R_total)/ length(theta);
 
 figure
-plot(theta , 10*log10(abs(P_R_total))), hold on, grid on, axis([-90 90, -50 1])
+% plot(theta , 10*log10(abs(P_R_total))), hold on, grid on, axis([-90 90, -50 1])
 % hold on
 % figure
 % MSE(1) = .00394;
+% figure
 % plot(1:V,MSE);
+figure
+plot(1:V,time);
+
 % MSE(1) = .0129;
 % MSE1 (i)= mean(MSE);
 % i = i+1;
@@ -128,7 +132,7 @@ plot(theta , 10*log10(abs(P_R_total))), hold on, grid on, axis([-90 90, -50 1])
 % end
 % R_L = sum(R_L,3);
 % BP_L = Beam_Pattern (M,gamma,R_L);
-% plot(gamma , 10*log10(abs(BP_L))), hold on, grid on %% plot only beta code
+% plot(theta , 10*log10(abs(BP_L))), hold on, grid on %% plot only beta code
 % R_L_shift = shift_R_construction (40 * pi/180,M,R_L);
 % BP_L_shift = Beam_Pattern (M,gamma,R_L_shift);
 % plot(gamma , 10*log10(abs(BP_L_shift))), hold on, grid on %% plot only beta code

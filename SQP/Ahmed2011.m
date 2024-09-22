@@ -3,7 +3,7 @@
 clc
 clear
 theta = (-90:.1:90)'*pi/180; % radian 181 points
-M = 16;
+M = 30;
 N = 1000;
 % gamma = 0.5;
 % r = (0:M-1);

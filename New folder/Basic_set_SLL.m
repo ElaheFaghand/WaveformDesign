@@ -1,18 +1,19 @@
 % The method of Basic Sets for symetric and asymetric
 % without for cycles it works correctly 18/7/2024
+% Revision has been strated in 18/9/2024
 clc
 clear 
 tic
 gamma = (-1:0.001:1);  % 2001 points are considered
-theta = (asin(gamma)) ;
+theta = (asin(gamma)) ; 
 % theta = (-90:.1:90) *pi/180;
 K = length(theta);
 M = 16;
 w = ones(length(theta),1);
 
 %% desired beampattern
-start = -30 * pi/180;
-stop= 30 * pi/180;
+start = -20 * pi/180; 
+stop= 20 * pi/180;
 pl1 = sin(start);
 ph1 = sin( stop);
 p_d = (1.*(sin(theta)>pl1).*(sin(theta)<ph1)); 
@@ -40,10 +41,10 @@ p_d = (1.*(sin(theta)>pl1).*(sin(theta)<ph1));
 % weight on sidelobes
 for k = 1:K
     if theta(k) >= (stop + asin(1.5/M)) 
-         w(k) = 1;
+         w(k) = 10;
     end
     if theta(k) <= (start - asin(1.5/M))
-        w(k) = 1;
+        w(k) = 10;
     end
 end
 % 

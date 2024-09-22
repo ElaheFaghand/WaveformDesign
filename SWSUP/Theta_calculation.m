@@ -5,7 +5,7 @@ function  [eta, sum_Beta_i_P_i] = Theta_calculation (gamma, P_d , M, eta, beta)
      %% 
 %      for l = 1 : length(eta) 
          numerator = 1;  
-             for w =1:1
+             for w =1:100
 %               while abs(numerator) > 1e-5
 
                   x = (gamma' -  eta);

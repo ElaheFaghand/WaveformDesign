@@ -1,22 +1,22 @@
 %% UPA-LIB PAPER1
 clc
 clear
-for ii = 1:100
+% for ii = 1:100
 
     format long
     N = 30; % number of antennas
     of = 1; 
     i = 1;
-%     M1 = -50; % strart point
-%     M2 = 60;  % stop point
-    theta_start1 = randi([0,40]);
-    theta_stop1 = randi ([theta_start1+5, 80]);
+    M1 = -20; % strart point
+    M2 = 20;  % stop point
+%     theta_start1 = randi([0,40]);
+%     theta_stop1 = randi ([theta_start1+5, 80]);
+% 
+%     theta_stop = randi([-40,0]);
+%     theta_start = randi ([-80,theta_stop-5]);
 
-    theta_stop = randi([-40,0]);
-    theta_start = randi ([-80,theta_stop-5]);
-
-    M1 = theta_start;
-    M2 = theta_stop1;
+%     M1 = theta_start;
+%     M2 = theta_stop1;
 %%
 
     gamma = (-1:0.001:1);  % 2001 points are considered
@@ -56,15 +56,15 @@ for ii = 1:100
     o = zeros(N);
     
 %% 1- desired beam pattern
-%     pl1 = sin(pi/180 * M1);
-%     ph1 = sin(pi/180 * M2);
-%     r = (1.*(t>pl1).*(t<ph1));
+    pl1 = sin(pi/180 * M1);
+    ph1 = sin(pi/180 * M2);
+    r = (1.*(t>pl1).*(t<ph1));
 %% 2- desired beam pattern
-p=sin(pi/180*theta_start1);
-ph=sin(pi/180*theta_stop1);
-p2=sin(pi/180*theta_start);
-ph2=sin(pi/180*theta_stop);  
-r=((1.*(t>p).*(t<ph)))+(1.*(t>p2).*(t<ph2));
+% p=sin(pi/180*theta_start1);
+% ph=sin(pi/180*theta_stop1);
+% p2=sin(pi/180*theta_start);
+% ph2=sin(pi/180*theta_stop);  
+% r=((1.*(t>p).*(t<ph)))+(1.*(t>p2).*(t<ph2));
 % figure, plot(tt,r)
 %% 3- desired beam pattern
 %     p=sin(pi/180*-50);
@@ -94,7 +94,7 @@ r=((1.*(t>p).*(t<ph)))+(1.*(t>p2).*(t<ph2));
      subject to
         co>= 0;
     cvx_end
-    time(ii) = toc;
+%     time(ii) = toc;
 
     %% Plot
     P_sqp=zeros(1,L);
@@ -117,7 +117,7 @@ r=((1.*(t>p).*(t<ph)))+(1.*(t>p2).*(t<ph2));
     MSE(ii) = 1/L * ((r - P_sqp')' * (r - P_sqp'));
 %     ii= ii+1;
     clearvars -except ii MSE time
-end
+% end
 mean(MSE)
 var (MSE)
 time = time/1.17;
