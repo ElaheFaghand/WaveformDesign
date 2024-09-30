@@ -11,8 +11,8 @@ K = length(theta);
 M = 16;
 w = ones(length(theta),1);
 %% desired beampattern
-start = -20 * pi/180; 
-stop= 20 * pi/180;
+start = -23 * pi/180; 
+stop= 23 * pi/180;
 pl1 = sin(start);
 ph1 = sin( stop);
 p_d = (1.*(sin(theta)>pl1).*(sin(theta)<ph1)); 
@@ -20,10 +20,10 @@ p_d = (1.*(sin(theta)>pl1).*(sin(theta)<ph1));
 % weight on sidelobes
 for k = 1:K
     if theta(k) >= (stop + asin(1.5/M)) 
-         w(k) = 1;
+         w(k) = 100;
     end
     if theta(k) <= (start - asin(1.5/M))
-        w(k) = 1;
+        w(k) = 100;
     end
 end
  %% 
@@ -72,8 +72,8 @@ RM = reshape(r, M, M);
 % RM = RM+eye(M)*(max(max(abs(RM)))-RM(1));
 P = Beam_Pattern (M, theta, RM);
 % figure
-% plot(theta*180/pi,10*log10(abs(P))), grid on, hold on
-plot(theta*180/pi,(P)), grid on, hold on
+plot(theta*180/pi,10*log10(abs(P))), grid on, hold on
+% plot(theta*180/pi,(P)), grid on, hold on
 
 eig(RM)
 figure;
