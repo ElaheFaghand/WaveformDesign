@@ -1,5 +1,5 @@
-% infinite alphabet, BPSK 18/7/2024
-% Wave form Design of article ahmed_2011 
+%% infinite alphabet, BPSK 18/7/2024
+%% Article: Finite Alphabet Constant-Envelope Waveform Design for MIMO Radar
 clc
 clear
 theta = (-90:.1:90)'*pi/180; % radian 181 points
