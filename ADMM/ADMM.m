@@ -1,5 +1,7 @@
 % Final ADMM
-% the constraints are the as close as to parametes article (cheng_2017)
+% the constraints are the as close as to parametes article: 
+% Constant Modulus Waveform Design for MIMO Radar Transmit Beampattern
+% It is written by Elahe Faghand
 clc
 clear all
 M = 30; % ANTENNA NUMBER
