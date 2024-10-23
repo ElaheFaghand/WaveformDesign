@@ -1,27 +1,20 @@
-% cyclic algorithm for waveform Design
+%% Stoica 2008 CA (cyclic algorithm) Method for Waveform design in article: 
+%% Waveform Synthesis for Diversity-Based Transmit Beampattern Design
+%% It is written by Elahe Faghand
 clc
 clear
 tic
 theta = (-90:.1:90)'*pi/180; % radian 181 points
 N = 16; % ANTENNA NUMBER
 L = 10; % SAMPLE NUMBER
-
 %%
-R = importdata("R.mat");
+R = importdata("R.mat"); % Enter the saved R from SQP_matching or SQP_SLL or SQP_SLL_wideband 
 P_R = Beam_Pattern (N, theta, R);
 plot(theta*180/pi ,10*log10(abs(P_R))),hold on,  grid on
 %% 
 U = 0.7 * randn (L,N) + 0.7*1j * randn (L,N);
-% for k=1:N
-%     for l=1:N
-%         U_phi(l:N:L,k) = 2*pi/N*k*l;
-%     end
-% end
-% U = exp(1j*U_phi);
-
 U_hat = ones (L,N);
 c = sqrt(diag(R(1)));
-
 for i = 1:1000
     % step 1
     X =  c * exp(1j * angle (sqrt(L) * U * sqrtm(R)));
