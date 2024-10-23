@@ -1,15 +1,19 @@
 % Stoica onProbing Min SLL
-
 clc
 clear all
-% for counter = 1:100
 delta = 1;
 theta = (-90:delta:90)';
 L = length(theta);
 tic
-%% Fig8a Stoica
-% N=10;teta0=0;teta1=-10;teta2=10; %%SS(l)=A0*vec(R)-A(l,:)*vec(R)*abs(1e12*(omega(l)))^.1-t
-% omega1=[-90:1:-20];omega2=[20:1:90];omega=[omega1,omega2];
+
+%% Fig8a Stoica properties
+% N=10;
+teta0=0;
+teta1=-10;
+teta2=10; 
+% omega1=[-90:1:-20];
+omega2=[20:1:90];omega=[omega1,omega2];
+
 %% Fig2c JianLi 
 N = 16;
 teta0 = 0;
@@ -42,11 +46,6 @@ real(SS)>=0;
 A1*vec(R) - 0.5*A0*vec(R) == 0;
 A2*vec(R) - 0.5*A0*vec(R) == 0;  
 cvx_end
-
-    %time (counter) = toc
-    toc
-    %clearvars -except time counter
-% end
+toc
 P_sqp = Beam_Pattern (N,theta*pi/180,R);
- %% 
 plot(theta ,10*log10(abs(P_sqp)/max(P_sqp))),hold on, grid on 
