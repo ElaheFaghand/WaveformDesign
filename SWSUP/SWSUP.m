@@ -1,4 +1,6 @@
-% Final version of SWSUP method 
+% Final version of SWSUP method in article:
+% A Novel Method Based on Sequential Unconstrained Programming for Transmit Beamforming in Colocated MIMO Radars
+% It is written by Elahe Faghand
 clc
 clear    
 M = 30; % antenna number
@@ -17,6 +19,7 @@ theta_stop = 30;  % degree
 gamma_L = sind(theta_start);
 gamma_R = sind(theta_stop); 
 P_d = (1.*(gamma > gamma_L) .* (gamma < gamma_R));
+
 % P_d = [0.1*ones(1,200),zeros(1,200),0.1*ones(1,200),ones(1,600),0.1*ones(1,601)];
 % % multi lobes
 % theta_start = -15; % degree
@@ -32,15 +35,7 @@ P_d = (1.*(gamma > gamma_L) .* (gamma < gamma_R));
 % gamma_R3 = sin(theta_stop * pi/180); 
 % P_d = ((1.*(gamma>gamma_L).*(gamma<gamma_R)))+(1.*(gamma>gamma_L2).*(gamma<gamma_R2))+(1.*(gamma>gamma_L3).*(gamma<gamma_R3));
 
-%% Eta definition 1 for beta theta variables
-% با این تعریف تغییر محسوس بین بتا خالی و زمانی که چندین ایتریشن از تتا
-% میریم مشاهده میشه در حالی که با تعریف 3 هردو حالت یکی هستند ولی جوجه میگه
-% چون MSE برامون مهمه بنابراین با تعریف 3 هست که به کمترین ارور ام اس ای
-% میرسیم
-% eta = [-2/M : -2/M : gamma_L, 2/M : 2/M:gamma_R, 0];
-% I = length(eta);
-
-%% Eta definition 3 that used in only beta variables
+%% Eta definition that used in only beta variables
 eta_1 = (gamma_L) + (1./M);
 eta_I = (gamma_R) - (1./M);
 I =  ceil((eta_I - eta_1) / (2/M)) + 1;
@@ -61,15 +56,15 @@ eta = linspace(eta_1, eta_I,I);
 
 %%
 beta_initial = 0.1 * ones(1, length(eta));
-V = 1; % set V = 1 if you want only run weight evaluation
+V = 10; % set V = 1 if you want only run weight evaluation
 tic
 for Iteration = 1:V
     %% Beta calculation
-    [P_R_total1, beta, P_shift] = Beta_calculation (gamma, P_d, M, eta, beta_initial);
-    %% Theta calculation, set Iteration = 1:10 if you want  run beta eta code
-%     [eta_updated, P_R_total] = Theta_calculation(gamma,  P_d, M, eta, beta);
+    [P_R_total1, beta, P_shift] = Beta_calculation (gamma, P_d, M, eta, beta_initial); % weight evaluation
+    %% Theta calculation, set Iteration = 1:10 if you want  run beta eta code % shift evaluation
+    [eta_updated, P_R_total] = Theta_calculation(gamma,  P_d, M, eta, beta);
     beta_initial = beta';
-%     eta = eta_updated;
+    eta = eta_updated;
 end
 toc
 plot(theta , 10*log10(abs(P_R_total1))), hold on, grid on, axis([-90 90, -50 1])
