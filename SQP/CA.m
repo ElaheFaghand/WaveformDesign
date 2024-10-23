@@ -18,7 +18,6 @@ c = sqrt(diag(R(1)));
 for i = 1:1000
     % step 1
     X =  c * exp(1j * angle (sqrt(L) * U * sqrtm(R)));
-
     % step 2
     U_bar_sigma_U_tild_c = sqrt(L) * sqrtm(R) * X';
     [ U_bar , sigma , U_tild] = svd( U_bar_sigma_U_tild_c , 'econ');
