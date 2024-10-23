@@ -1,5 +1,6 @@
 %% Stoica 2007 SQP Method for solving matching design problem in section III-C in article: 
 %% On Probing Signal Design For MIMO Radar
+%% It is written by Elahe Faghand
 clc
 clear all
 format long
