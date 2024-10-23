@@ -1,4 +1,4 @@
-%% TCMD in article: 
+%% TCMD method in article: 
 %% Beampattern matching in colocated MIMO radar using transmit covariance matrix design
 %% It is written by Elahe Faghand
 clf
