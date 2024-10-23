@@ -1,4 +1,4 @@
-% Final version of SWSUP method in article:
+% Main Final version of SWSUP method in article:
 % A Novel Method Based on Sequential Unconstrained Programming for Transmit Beamforming in Colocated MIMO Radars
 % It is written by Elahe Faghand
 clc
