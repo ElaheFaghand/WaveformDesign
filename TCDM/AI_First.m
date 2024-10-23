@@ -95,3 +95,11 @@ while max(D_k_2) > eta && k < 10
         plot(tt,10*log10(abs(P_sqp)/max(P_sqp))), grid on, hold on
         k = k+1;
 end
+%%
+function Beam_Pattern = Beam_Pattern (N,gamma,R)
+Beam_Pattern = zeros(1, length(gamma));
+    for l = 1:length(gamma)
+        et = exp(1j*pi*(0:N-1)*(gamma(l))).';
+        Beam_Pattern(l) = et'*R*et;
+    end
+end
