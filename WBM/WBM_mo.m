@@ -1,3 +1,4 @@
+% WBM method in article Constant Modulus MIMO Radar Waveform Design With Minimum Peak Sidelobe Transmit Beampattern
 clc
 clear all
     theta = (-90:1:90)'*(pi/180); % radian
