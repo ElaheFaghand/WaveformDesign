@@ -1,42 +1,38 @@
+%% TCMD in article: 
+%% Beampattern matching in colocated MIMO radar using transmit covariance matrix design
+%% It is written by Elahe Faghand
 clf
 clc
 clear
 tic
-
 %% single lobe desired beampattern
 start = -30;
 stop = 30;
 N = 10; % number of antennas
-
 %%
 theta_0 = (start + stop)/2;
 theta = (-90:0.1:90)'*(pi/180); % radian
 tt = (-90:0.1:90)'; % degree
 L = length(theta);
 for l = 1:L
-    aT = exp(  1j * pi*(0:N-1)*sin(theta(l)) ).';
+    aT = exp(  1j * pi*(0:N-1)*sin(theta(l)) ).'; % steering vector
 end
-
 %%
 a0 = exp(  1j * pi*(0:N-1)*sin(theta_0 *pi/180) ).';
 beta0 = 1/(norm (a0)^2+norm (a0)^4);
-
 IN = eye(N);
 R_pre = beta0*(a0*a0'+IN);
-
 %% Desired BeamPattern
 pl1 = sin (start * pi/180 );
 ph1 = sin (stop * pi/180);
 P_d = (1.*(sin(theta)>pl1).*(sin(theta)<ph1));
 theta_main = [start + 5 : 0.1 : stop - 5]' * (pi/180);
-
 for i=1:length(P_d)
     if P_d(i)==0;
        P_d(i)=1e-1;
     end
 end
 plot(tt,10*log10(P_d)), grid on, hold on
-
 %% Part_1
 k=1;
 D_k_while =1;
