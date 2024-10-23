@@ -1,4 +1,4 @@
-%% UPALIB in article: 
+%% UPALIB method in article: 
 %% Complexity Reduction in Beamforming of Uniform Array Antennas for MIMO Radars Section III.A
 %% It is written by Elahe Faghand
 clc
